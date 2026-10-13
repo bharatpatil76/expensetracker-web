@@ -1,0 +1,104 @@
+main {
+  max-width: 860px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 24px;
+}
+
+form input:first-child {
+  flex: 1 1 220px;
+}
+
+form input[type='number'] {
+  width: 120px;
+}
+
+input,
+select,
+button {
+  padding: 8px 12px;
+  font-size: 15px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+button {
+  background: var(--accent-bg);
+  cursor: pointer;
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  min-width: 110px;
+}
+
+.tile span {
+  font-size: 13px;
+}
+
+.tile b {
+  color: var(--text-h);
+  font-size: 17px;
+  font-variant-numeric: tabular-nums;
+}
+
+.tile.total {
+  background: var(--accent-bg);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+td {
+  color: var(--text-h);
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.empty {
+  text-align: center;
+  color: var(--text);
+}
+
+.error {
+  color: #d33;
+}
