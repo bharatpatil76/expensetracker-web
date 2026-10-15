@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { createApi, type Category, type CategoryTotal, type Expense } from './api'
+import { Attachments } from './Attachments'
 import './App.css'
 
 const money = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' })
@@ -18,6 +19,7 @@ function App() {
   const [expenses, setExpenses] = useState<Expense[]>([])
   const [summary, setSummary] = useState<CategoryTotal[]>([])
   const [error, setError] = useState('')
+  const [openId, setOpenId] = useState<number | null>(null)
 
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState('')
@@ -99,19 +101,31 @@ function App() {
 
       <table>
         <thead>
-          <tr><th>Date</th><th>Title</th><th>Category</th><th className="num">Amount</th><th></th></tr>
+          <tr><th>Date</th><th>Title</th><th>Category</th><th className="num">Amount</th><th>Files</th><th></th></tr>
         </thead>
         <tbody>
           {expenses.map((x) => (
-            <tr key={x.id}>
-              <td>{x.spentOn}</td>
-              <td>{x.title}</td>
-              <td>{x.categoryName}</td>
-              <td className="num">{money.format(x.amount)}</td>
-              <td><button onClick={() => remove(x.id)}>Delete</button></td>
-            </tr>
+            <Fragment key={x.id}>
+              <tr>
+                <td>{x.spentOn}</td>
+                <td>{x.title}</td>
+                <td>{x.categoryName}</td>
+                <td className="num">{money.format(x.amount)}</td>
+                <td>
+                  <button onClick={() => setOpenId(openId === x.id ? null : x.id)} title="Receipt and voice note">
+                    {x.hasReceipt ? '🧾' : ''}{x.hasVoiceNote ? '🎤' : ''}{!x.hasReceipt && !x.hasVoiceNote ? '➕' : ''} {openId === x.id ? '▲' : '▼'}
+                  </button>
+                </td>
+                <td><button onClick={() => remove(x.id)}>Delete</button></td>
+              </tr>
+              {openId === x.id && (
+                <tr className="details">
+                  <td colSpan={6}><Attachments expense={x} api={api} onChanged={load} /></td>
+                </tr>
+              )}
+            </Fragment>
           ))}
-          {expenses.length === 0 && <tr><td colSpan={5} className="empty">No expenses yet</td></tr>}
+          {expenses.length === 0 && <tr><td colSpan={6} className="empty">No expenses yet</td></tr>}
         </tbody>
       </table>
     </main>
